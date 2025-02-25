@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('codigoBarra', 20)->unique();
             $table->string('nombreProducto', 50)->unique();
             $table->decimal('precioProducto');
+            $table->integer('cantidadProductos');
             $table->timestamps();
         });
     }
