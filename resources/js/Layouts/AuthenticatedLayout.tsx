@@ -4,6 +4,7 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
+import { linksByRole } from '@/utils/roleLinks';
 
 export default function Authenticated({
     header,
@@ -13,6 +14,8 @@ export default function Authenticated({
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    const links = linksByRole[user.idRol] || []
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -27,12 +30,11 @@ export default function Authenticated({
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
-                                >
-                                    Dashboard
-                                </NavLink>
+                                {links.map(link => (
+                                    <NavLink key={link.route} href={route(`${link.route}`)} active={route().current(`${link.route}`)} >
+                                        {link.label}
+                                    </NavLink>
+                                ))}
                             </div>
                         </div>
 
@@ -64,11 +66,15 @@ export default function Authenticated({
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route('profile.edit')}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
+                                        {
+                                            user.idRol === 1
+                                            &&
+                                            <Dropdown.Link
+                                                href={route('profile.edit')}
+                                            >
+                                                Profile
+                                            </Dropdown.Link>
+                                        }
                                         <Dropdown.Link
                                             href={route('logout')}
                                             method="post"
@@ -131,12 +137,17 @@ export default function Authenticated({
                     }
                 >
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
+                        {
+                            links.map(link => (
+                                <ResponsiveNavLink
+                                    key={link.route}
+                                    href={route(`${link.route}`)}
+                                    active={route().current(`${link.route}`)}
+                                >
+                                    {link.label}
+                                </ResponsiveNavLink>
+                            ))
+                        }
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">

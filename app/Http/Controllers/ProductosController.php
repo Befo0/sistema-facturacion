@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductosRequest;
 use App\Models\Productos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class ProductosController extends Controller
 {
@@ -12,7 +15,12 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        //
+
+        $tiposProductos = DB::table('tipos')->select('id', 'nombreTipo')->get();
+
+        return Inertia::render('Administracion/RegistroProductos', [
+            'tiposProductos' => $tiposProductos
+        ]);
     }
 
     /**
@@ -26,9 +34,9 @@ class ProductosController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductosRequest $request)
     {
-        //
+        $validated = $request->validated();
     }
 
     /**
