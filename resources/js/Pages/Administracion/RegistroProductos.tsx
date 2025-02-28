@@ -1,16 +1,18 @@
 import ProductosForm from '@/Components/Formularios/ProductosForm';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import NewLayout from '@/Layouts/NewLayout';
 import { opcionesTipos } from '@/types/productos';
 import { Head } from '@inertiajs/react';
+import { Toaster } from 'sonner';
 
 export default function RegistroProductos({ tiposProductos }: { tiposProductos: opcionesTipos }) {
 
     return (
-        <AuthenticatedLayout>
+        <NewLayout>
             <Head title='Registro de productos' />
 
+            <Toaster richColors position='top-right' />
             <ProductosForm tipos={tiposProductos} />
 
-        </AuthenticatedLayout>
+        </NewLayout>
     )
 }

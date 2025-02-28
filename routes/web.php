@@ -20,8 +20,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/registro-productos', [ProductosController::class, 'index'])->name('registro.productos');
+    Route::get('/registro-productos', [ProductosController::class, 'create'])->name('registro.productos');
     Route::post('/guardar-productos', [ProductosController::class, 'store'])->name('productos.guardar');
+
+    Route::get('/editar-productos', [ProductosController::class, 'edit'])->name('editar.productos');
+    Route::patch('/editar-productos/{producto}', [ProductosController::class, 'update'])->name('actualizar.productos');
 });
 
 Route::middleware('auth')->group(function () {

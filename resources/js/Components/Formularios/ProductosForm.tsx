@@ -12,6 +12,7 @@ export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
         name: '',
         type: 0,
         barcode: '',
+        price: 0,
         quantity: 0,
         distributor: '',
     })
@@ -41,6 +42,7 @@ export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
                         type="text"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
+                        autoComplete='off'
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                     />
                     <InputError message={errors.name} />
@@ -50,8 +52,7 @@ export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
                     <InputLabel htmlFor="type" value="Tipo" className="text-gray-700" />
                     <select
                         id="type"
-                        defaultValue='0'
-                        value={data.type}
+                        value={data.type || 0}
                         onChange={(e) => setData('type', Number(e.target.value))}
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                     >
@@ -80,6 +81,18 @@ export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
                 </div>
 
                 <div>
+                    <InputLabel htmlFor="price" value="Precio" className="text-gray-700" />
+                    <TextInput
+                        id="price"
+                        type="number"
+                        value={data.price}
+                        onChange={(e) => setData('price', Number(e.target.value))}
+                        className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                    />
+                    <InputError message={errors.quantity} />
+                </div>
+
+                <div>
                     <InputLabel htmlFor="quantity" value="Cantidad" className="text-gray-700" />
                     <TextInput
                         id="quantity"
@@ -91,7 +104,7 @@ export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
                     <InputError message={errors.quantity} />
                 </div>
 
-                <div className="col-span-2">
+                <div className="text-gray-700">
                     <InputLabel htmlFor="distributor" value="Distribuidora" className="text-gray-700" />
                     <TextInput
                         id="distributor"
@@ -108,7 +121,7 @@ export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
                         Registrar producto
                     </PrimaryButton>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }

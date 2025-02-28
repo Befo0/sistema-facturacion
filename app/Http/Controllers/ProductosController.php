@@ -6,6 +6,8 @@ use App\Http\Requests\StoreProductosRequest;
 use App\Models\Productos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ProductosController extends Controller
@@ -15,6 +17,15 @@ class ProductosController extends Controller
      */
     public function index()
     {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        Gate::authorize('viewAny', Productos::class);
 
         $tiposProductos = DB::table('tipos')->select('id', 'nombreTipo')->get();
 
@@ -24,19 +35,24 @@ class ProductosController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreProductosRequest $request)
     {
+        Gate::authorize('create', Productos::class);
+
         $validated = $request->validated();
+
+        Productos::create([
+            'codigoBarra' => $validated['barcode'],
+            'nombreProducto' => $validated['name'],
+            'distribuidor' => $validated['distributor'],
+            'precioProducto' => $validated['price'],
+            'cantidadProductos' => $validated['quantity'],
+            'idTipo' => $validated['type']
+        ]);
+
+        return Redirect::to(route('registro.productos'));
     }
 
     /**
@@ -52,7 +68,7 @@ class ProductosController extends Controller
      */
     public function edit(Productos $productos)
     {
-        //
+        return Inertia::render('Administracion/ModificarProductos');
     }
 
     /**

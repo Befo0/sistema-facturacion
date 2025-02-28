@@ -11,9 +11,9 @@ class ProductosPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        return false;
+        return $user->isAdmin() ? Response::allow() : Response::deny('No tienes permisos para registrar productos');
     }
 
     /**
@@ -27,9 +27,9 @@ class ProductosPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return false;
+        $this->viewAny($user);
     }
 
     /**

@@ -16,8 +16,9 @@ class StoreProductosRequest extends FormRequest
         return [
             'name' => 'required|min:5|max:50',
             'type' => 'required|integer|min:1',
-            'barcode' => 'required|min:20',
+            'barcode' => 'required|min:20|max:20',
             'quantity' => 'required|integer',
+            'price' => 'required|integer',
             'distributor' => 'required|min:5|max:50'
         ];
     }
@@ -30,7 +31,8 @@ class StoreProductosRequest extends FormRequest
             'name.nax' => 'El nombre debe de ser de al menos :maz caracteres',
             'type.min' => 'Debes de elegir un tipo',
             'barcode.required' => 'El codigo de barras es requerido',
-            'barcode.min' => 'El codigo de barra debe de ser de al menos :min caraceters',
+            'barcode.min' => 'El codigo de barra debe de ser de al menos :min caracters',
+            'barcode.max' => 'El codigo de barra debe de ser de 20 caracteres',
             'distributor.required' => 'El distribuidor del producto es requerido',
             'distributor.min' => 'El nombre del distribuidor debe de ser de al menos :min caracteres',
             'distributor.max' => 'El nombre del distribuidor debe de ser de maximo :max caracteres',
