@@ -29,7 +29,6 @@ return new class extends Migration
             ['nombreTipo' => 'Conservas'],
             ['nombreTipo' => 'Snacks'],
             ['nombreTipo' => 'Limpieza'],
-            ['nombreTipo' => 'Desayuno'],
             ['nombreTipo' => 'Mascotas'],
             ['nombreTipo' => 'Belleza'],
             ['nombreTipo' => 'Organicos'],

@@ -42,7 +42,6 @@ export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
                         type="text"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
-                        autoComplete='off'
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                     />
                     <InputError message={errors.name} />

@@ -1,10 +1,12 @@
 import ProductosForm from '@/Components/Formularios/ProductosForm';
 import NewLayout from '@/Layouts/NewLayout';
-import { opcionesTipos } from '@/types/productos';
-import { Head } from '@inertiajs/react';
+import { PageProps } from '@/types';
+import { Head, usePage } from '@inertiajs/react';
 import { Toaster } from 'sonner';
 
-export default function RegistroProductos({ tiposProductos }: { tiposProductos: opcionesTipos }) {
+export default function RegistroProductos() {
+
+    const tiposProductos = usePage<PageProps>().props.categories
 
     return (
         <NewLayout>

@@ -27,11 +27,7 @@ class ProductosController extends Controller
     {
         Gate::authorize('viewAny', Productos::class);
 
-        $tiposProductos = DB::table('tipos')->select('id', 'nombreTipo')->get();
-
-        return Inertia::render('Administracion/RegistroProductos', [
-            'tiposProductos' => $tiposProductos
-        ]);
+        return Inertia::render('Administracion/RegistroProductos');
     }
 
     /**
@@ -64,11 +60,25 @@ class ProductosController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the table of all the products
      */
-    public function edit(Productos $productos)
+    public function edit(Request $request)
     {
-        return Inertia::render('Administracion/ModificarProductos');
+        Gate::authorize('viewAny', Productos::class);
+
+        $productos = Productos::select('nombreProducto', 'distribuidor', 'precioProducto', 'cantidadProductos');
+
+        $contadorCategorias = DB::table('tipos')->count();
+
+        if (strlen($request->tipoProducto) > 0 && $request->tipoProducto > 0 && $request->tipoProducto <= $contadorCategorias) {
+            $productos = $productos->where('idTipo', $request->tipoProducto);
+        }
+
+        $productos = $productos->paginate(5);
+
+        return Inertia::render('Administracion/ModificarProductos', [
+            'productosPaginacion' => $productos
+        ]);
     }
 
     /**
