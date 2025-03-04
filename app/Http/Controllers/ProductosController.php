@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ProductosController extends Controller
@@ -15,19 +16,57 @@ class ProductosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
     }
 
     /**
+     * Api for getting the products
+     */
+    public function productoRegistrado(string $codigoBarra)
+    {
+
+        $validator = Validator::make(['codigoBarra' => $codigoBarra], [
+            'codigoBarra' => 'required|string|min:20|max:20'
+        ], $messages = [
+            'required' => 'El codigo de barras es requerido',
+            'min' => 'El codigo de barras debe de ser de :min caracteres',
+            'max' => 'El codigo de barras debe de ser de :max caracteres',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $codigoBarra = $validator->validate()['codigoBarra'];
+
+        Gate::authorize('viewAny', Productos::class);
+
+        $producto = [];
+
+        if (strlen($codigoBarra) > 0) {
+            $producto = Productos::select('nombreProducto', 'distribuidor', 'codigoBarra', 'precioProducto', 'cantidadProductos', 'idTipo')->where('codigoBarra', '=', $codigoBarra)->get();
+        }
+
+        return $producto;
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         Gate::authorize('viewAny', Productos::class);
 
-        return Inertia::render('Administracion/RegistroProductos');
+        $producto = [];
+
+
+        return Inertia::render('Administracion/RegistroProductos', [
+            'productoRegistrado' => $producto
+        ]);
     }
 
     /**

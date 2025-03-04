@@ -16,6 +16,7 @@ export interface ProductosPagination {
 
 export interface DatosProductosPaginacion {
     nombreProducto: string;
+    codigoBarra?: string;
     distribuidor: string;
     precioProducto: string;
     cantidadProductos: number;

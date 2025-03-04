@@ -32,7 +32,7 @@ class HandleInertiaRequests extends Middleware
     {
         $categorias = [];
 
-        if ($request->user()->isAdmin()) {
+        if ($request->user() && $request->user()->isAdmin()) {
             $categorias = DB::table('tipos')->select('id', 'nombreTipo')->get();
         }
 

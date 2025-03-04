@@ -1,21 +1,25 @@
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '../PrimaryButton';
-import { opcionesTipos } from '@/types/productos';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import InputError from '../InputError';
 import { toast } from 'sonner';
+import { PageProps } from '@/types';
 
-export default function ProductosForm({ tipos }: { tipos: opcionesTipos }) {
+export default function ProductosForm({ barCode }: { barCode: string }) {
+
+    const tipos = usePage<PageProps>().props.categories || []
 
     const { data, setData, post, errors, processing, reset } = useForm({
         name: '',
         type: 0,
-        barcode: '',
+        barcode: barCode,
         price: 0,
         quantity: 0,
         distributor: '',
     })
+
+    console.log(data)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()

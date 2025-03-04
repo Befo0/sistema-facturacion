@@ -9,6 +9,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <!-- import this BEFORE any scripts -->
+        <script src="https://unpkg.com/react-scan/dist/auto.global.js"></script>
+
         <!-- Scripts -->
         @routes
         @viteReactRefresh
