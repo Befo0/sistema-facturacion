@@ -38,7 +38,7 @@ class ProductosController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
-            ], 422);
+            ]);
         }
 
         $codigoBarra = $validator->validate()['codigoBarra'];
@@ -48,7 +48,7 @@ class ProductosController extends Controller
         $producto = [];
 
         if (strlen($codigoBarra) > 0) {
-            $producto = Productos::select('nombreProducto', 'distribuidor', 'codigoBarra', 'precioProducto', 'cantidadProductos', 'idTipo')->where('codigoBarra', '=', $codigoBarra)->get();
+            $producto = Productos::select('id', 'nombreProducto', 'distribuidor', 'codigoBarra', 'precioProducto', 'cantidadProductos', 'idTipo')->where('codigoBarra', '=', $codigoBarra)->get();
         }
 
         return $producto;
@@ -101,31 +101,19 @@ class ProductosController extends Controller
     /**
      * Show the table of all the products
      */
-    public function edit(Request $request)
-    {
-        Gate::authorize('viewAny', Productos::class);
-
-        $productos = Productos::select('nombreProducto', 'distribuidor', 'precioProducto', 'cantidadProductos');
-
-        $contadorCategorias = DB::table('tipos')->count();
-
-        if (strlen($request->tipoProducto) > 0 && $request->tipoProducto > 0 && $request->tipoProducto <= $contadorCategorias) {
-            $productos = $productos->where('idTipo', $request->tipoProducto);
-        }
-
-        $productos = $productos->paginate(5);
-
-        return Inertia::render('Administracion/ModificarProductos', [
-            'productosPaginacion' => $productos
-        ]);
-    }
+    public function edit(Request $request) {}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Productos $productos)
+    public function update(StoreProductosRequest $request, Productos $producto)
     {
-        //
+        Gate::authorize('update', Productos::class);
+
+        $validated = $request->validated();
+
+
+        return Redirect::to(route('registro.productos'));
     }
 
     /**

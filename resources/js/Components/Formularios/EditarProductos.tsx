@@ -5,30 +5,32 @@ import { useForm, usePage } from '@inertiajs/react';
 import InputError from '../InputError';
 import { toast } from 'sonner';
 import { PageProps } from '@/types';
+import { DatosProductos } from '@/types/ProductosPagination';
 
-export default function ProductosForm({ barCode }: { barCode: string }) {
+export default function EditarProductos({ producto }: { producto: DatosProductos[] }) {
 
     const tipos = usePage<PageProps>().props.categories || []
+    const objetoProducto = producto[0]
 
-    const { data, setData, post, errors, processing, reset } = useForm({
-        name: '',
-        type: 0,
-        barcode: barCode,
-        price: 0,
+    const { data, setData, patch, errors, processing, reset } = useForm({
+        name: objetoProducto.nombreProducto,
+        type: objetoProducto.idTipo,
+        barcode: objetoProducto.codigoBarra,
+        price: objetoProducto.precioProducto,
         quantity: 0,
-        distributor: '',
+        distributor: objetoProducto.distribuidor,
     })
 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        post(route('productos.guardar'), {
+        patch(route('productos.editar', objetoProducto.id), {
             onSuccess: () => {
                 reset()
-                toast.success('El producto se ha registrado correctamente')
+                toast.success('El producto se ha editado correctamente')
             },
             onError: () => {
-                toast.error('Ha ocurrido un error al registrar el producto')
+                toast.error('Ha ocurrido un error al editar el producto')
             },
         })
 
@@ -36,7 +38,7 @@ export default function ProductosForm({ barCode }: { barCode: string }) {
 
     return (
         <div className="max-w-6xl mx-auto bg-white p-10 rounded-lg shadow-lg mt-10 border border-gray-200">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Registrar Producto</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Modificar Modificar</h2>
             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
                 <div>
                     <InputLabel htmlFor="name" value="Nombre del Producto" className="text-gray-700" />
@@ -55,6 +57,7 @@ export default function ProductosForm({ barCode }: { barCode: string }) {
                     <select
                         id="type"
                         value={data.type || 0}
+                        disabled
                         onChange={(e) => setData('type', Number(e.target.value))}
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                     >

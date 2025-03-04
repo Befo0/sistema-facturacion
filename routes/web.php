@@ -29,6 +29,7 @@ Route::get('/dashboard', function (Request $request) {
 Route::middleware('auth')->group(function () {
     Route::get('/productos', [ProductosController::class, 'create'])->name('registro.productos');
     Route::post('/guardar-productos', [ProductosController::class, 'store'])->name('productos.guardar');
+    Route::patch('/editar-producto/{producto}', [ProductosController::class, 'update'])->name('productos.editar');
 
     //api
     Route::get('/api/productos/{codigoBarra}', [ProductosController::class, 'productoRegistrado'])->name('api.producto');

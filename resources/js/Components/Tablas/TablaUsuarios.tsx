@@ -1,13 +1,10 @@
-import { DatosProductosPaginacion, PaginationLinks } from "@/types/ProductosPagination";
 import { Link } from "@inertiajs/react";
 import Pagination from "../Pagination";
 
-interface Props {
-    productosArray: DatosProductosPaginacion[]
-    productosLink: PaginationLinks[]
-}
+export default function TablaUsuarios() {
 
-export default function EditarProductos({ productosArray, productosLink }: Props) {
+    const productosArray = []
+
     return (
         <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg overflow-hidden mt-6">
             <table className="w-full border-collapse">

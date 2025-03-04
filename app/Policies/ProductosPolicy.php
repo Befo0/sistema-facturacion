@@ -35,9 +35,9 @@ class ProductosPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Productos $productos): bool
+    public function update(User $user, Productos $productos): Response
     {
-        return false;
+        return $user->isAdmin() ? Response::allow() : Response::deny('No tienes permisos para editar el producto');
     }
 
     /**
