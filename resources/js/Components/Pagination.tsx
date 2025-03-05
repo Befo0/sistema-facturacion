@@ -1,7 +1,6 @@
-import { PaginationLinks } from "@/types/ProductosPagination";
-import { Link } from "@inertiajs/react";
+//import { Link } from "@inertiajs/react";
 
-export default function Pagination({ links }: { links: PaginationLinks[] }) {
+{/*export default function Pagination() {
     return (
         links.length > 3 && (
             <div className="max-w-6xl mx-auto bg-white rounded-lg p-4 shadow-md mt-6">
@@ -23,4 +22,4 @@ export default function Pagination({ links }: { links: PaginationLinks[] }) {
             </div>
         )
     )
-}
+}*/}
