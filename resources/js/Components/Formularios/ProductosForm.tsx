@@ -91,7 +91,7 @@ export default function ProductosForm({ barCode }: { barCode: string }) {
                         onChange={(e) => setData('price', Number(e.target.value))}
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                     />
-                    <InputError message={errors.quantity} />
+                    <InputError message={errors.price} />
                 </div>
 
                 <div>

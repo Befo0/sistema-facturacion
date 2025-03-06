@@ -112,6 +112,13 @@ class ProductosController extends Controller
 
         $validated = $request->validated();
 
+        $producto->nombreProducto = $validated['name'];
+        $producto->codigoBarra = $validated['barcode'];
+        $producto->distribuidor = $validated['distributor'];
+        $producto->precioProducto = $validated['price'];
+        $producto->cantidadProductos = (int)$producto->cantidadProductos + (int)$validated['quantity'];
+        $producto->idTipo = $producto->idTipo;
+
 
         return Redirect::to(route('registro.productos'));
     }

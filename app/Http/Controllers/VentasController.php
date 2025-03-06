@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ventas;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class VentasController extends Controller
 {
@@ -20,7 +21,7 @@ class VentasController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Cajeros/Caja');
     }
 
     /**

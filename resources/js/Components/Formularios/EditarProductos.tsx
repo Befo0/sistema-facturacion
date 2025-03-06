@@ -98,7 +98,7 @@ export default function EditarProductos({ producto }: { producto: DatosProductos
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="quantity" value="Cantidad" className="text-gray-700" />
+                    <InputLabel htmlFor="quantity" value="Cantidad que ha ingresado" className="text-gray-700" />
                     <TextInput
                         id="quantity"
                         type="number"

@@ -18,7 +18,7 @@ class StoreProductosRequest extends FormRequest
             'type' => 'required|integer|min:1',
             'barcode' => 'required|min:20|max:20',
             'quantity' => 'required|integer',
-            'price' => 'required|integer',
+            'price' => 'required',
             'distributor' => 'required|min:5|max:50'
         ];
     }
@@ -36,6 +36,7 @@ class StoreProductosRequest extends FormRequest
             'distributor.required' => 'El distribuidor del producto es requerido',
             'distributor.min' => 'El nombre del distribuidor debe de ser de al menos :min caracteres',
             'distributor.max' => 'El nombre del distribuidor debe de ser de maximo :max caracteres',
+            'price.required' => 'El precio es requerido',
         ];
     }
 }

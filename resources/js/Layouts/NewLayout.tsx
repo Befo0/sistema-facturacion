@@ -17,7 +17,7 @@ export default function NewLayout({
 
     const links = linksByRole[user.idRol] || []
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 ">
             <nav className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-20 items-center justify-between">
@@ -166,7 +166,7 @@ export default function NewLayout({
                     </div>
                 </div>
             </nav>
-            <main className="py-6">
+            <main className="py-6 h-[calc(100vh-5rem)]">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">{children}</div>
             </main>
         </div>

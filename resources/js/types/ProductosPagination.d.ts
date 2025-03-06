@@ -5,5 +5,13 @@ export interface DatosProductos {
     distribuidor: string;
     precioProducto: string;
     cantidadProductos: number;
-    idTipo: number;
+    idTipo?: number;
+}
+
+export interface ErrorProducto {
+    errors: Errors;
+}
+
+export interface Errors {
+    codigoBarra: string[];
 }

@@ -3,9 +3,11 @@ import ProductosForm from '@/Components/Formularios/ProductosForm';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import NewLayout from '@/Layouts/NewLayout';
 import { DatosProductos } from '@/types/ProductosPagination';
+import { fetchProducts } from '@/utils/fetchProducts';
 import { Head } from '@inertiajs/react';
 import { useCallback, useState } from 'react';
 import { Toaster } from 'sonner';
@@ -27,25 +29,30 @@ export default function RegistroProductos() {
     };
 
     const searchProducto = useCallback(() => {
-        fetch(route('api.producto', { codigoBarra: barCode }))
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`Hubo un error al realizar la petición: ${res.statusText}`)
-                }
-                return res.json()
-            })
-            .then((data) => {
-                if (data.errors) {
-                    setError(data.errors.codigoBarra[0])
+        fetchProducts('api.producto', barCode)
+            .then((response) => {
+                const [error, productoError, producto] = response
+
+                if (error) console.error('Error en la respuesta: ', error)
+
+                if (productoError) {
+                    setError(productoError.errors.codigoBarra[0])
                     return
                 }
-                setProducto(data)
-                setShowform(true)
-            })
-            .catch((err) => {
-                console.error(err)
+
+                if (producto) {
+                    setProducto(producto)
+                    setShowform(true)
+                }
+            }).catch((err) => {
+                console.error('Error de peticion: ', err)
             })
     }, [barCode])
+
+    const reset = () => {
+        setShowform(false)
+        setBarcode('')
+    }
 
     return (
         <NewLayout>
@@ -57,8 +64,9 @@ export default function RegistroProductos() {
                     <InputLabel htmlFor="filterBarCode" className="text-xl font-bold">Inserta codigo de barra</InputLabel>
                     <TextInput id="filterBarCode" value={barCode} onChange={handleInputChange} className="w-full max-w-lg" />
                     <InputError message={error} className='mt-2 font-bold' />
-                    <div className="mt-4">
+                    <div className="mt-4 flex gap-x-6">
                         <PrimaryButton className="font-bold" type="submit">Filtrar</PrimaryButton>
+                        <SecondaryButton className='font-bold' type='button' onClick={reset}> Reiniciar </SecondaryButton>
                     </div>
                 </form>
             </div>

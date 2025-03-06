@@ -9,12 +9,12 @@ export const linksByRole: Record<number, linkContent[]> = {
             route: 'registro.productos', label: 'Registrar productos'
         },
         {
-            route: 'editar.productos', label: 'Modificar productos'
+            route: 'caja', label: 'Caja'
         }
     ],
-    //2: [
-    //   {
-    //        route: 'registro.venta', label: 'Registrar venta'
-    //    },
-    //],
+    2: [
+        {
+            route: 'caja', label: 'Caja'
+        }
+    ]
 }

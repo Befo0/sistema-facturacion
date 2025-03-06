@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VentasController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -23,7 +24,7 @@ Route::get('/dashboard', function (Request $request) {
         return Redirect::to(route('registro.productos'));
     }
 
-    return Redirect::to();
+    return Redirect::to('/caja');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -34,8 +35,7 @@ Route::middleware('auth')->group(function () {
     //api
     Route::get('/api/productos/{codigoBarra}', [ProductosController::class, 'productoRegistrado'])->name('api.producto');
 
-    Route::get('/editar-productos', [ProductosController::class, 'edit'])->name('editar.productos');
-    Route::patch('/editar-productos/{producto}', [ProductosController::class, 'update'])->name('actualizar.productos');
+    Route::get('/caja', [VentasController::class, 'create'])->name('caja');
 });
 
 Route::middleware('auth')->group(function () {

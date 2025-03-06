@@ -29,7 +29,7 @@ class ProductosPolicy
      */
     public function create(User $user): Response
     {
-        $this->viewAny($user);
+        return $this->viewAny($user);
     }
 
     /**
