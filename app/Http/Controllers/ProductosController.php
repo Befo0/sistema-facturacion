@@ -26,7 +26,6 @@ class ProductosController extends Controller
      */
     public function productoRegistrado(string $codigoBarra)
     {
-
         $validator = Validator::make(['codigoBarra' => $codigoBarra], [
             'codigoBarra' => 'required|string|min:20|max:20'
         ], $messages = [

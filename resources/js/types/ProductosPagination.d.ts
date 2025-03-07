@@ -5,6 +5,7 @@ export interface DatosProductos {
     distribuidor: string;
     precioProducto: string;
     cantidadProductos: number;
+    cantidadCompra?: number;
     idTipo?: number;
 }
 

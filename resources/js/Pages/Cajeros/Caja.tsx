@@ -9,7 +9,6 @@ import { Head } from "@inertiajs/react";
 export default function Caja() {
 
     const { venta, add, remove } = useVentaState([])
-    console.log(venta)
 
     return (
         <NewLayout>

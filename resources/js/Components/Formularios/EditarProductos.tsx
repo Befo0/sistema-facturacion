@@ -45,6 +45,7 @@ export default function EditarProductos({ producto }: { producto: DatosProductos
                     <TextInput
                         id="name"
                         type="text"
+                        autoComplete='off'
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -78,6 +79,7 @@ export default function EditarProductos({ producto }: { producto: DatosProductos
                     <TextInput
                         id="barcode"
                         type="text"
+                        autoComplete='off'
                         value={data.barcode}
                         onChange={(e) => setData('barcode', e.target.value)}
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -114,6 +116,7 @@ export default function EditarProductos({ producto }: { producto: DatosProductos
                     <TextInput
                         id="distributor"
                         type="text"
+                        autoComplete='off'
                         value={data.distributor}
                         onChange={(e) => setData('distributor', e.target.value)}
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"

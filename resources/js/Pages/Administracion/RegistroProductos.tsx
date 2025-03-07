@@ -62,7 +62,7 @@ export default function RegistroProductos() {
             <div className="max-w-6xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
                 <form onSubmit={handleSubmit} className="mb-0 text-center flex flex-col items-center">
                     <InputLabel htmlFor="filterBarCode" className="text-xl font-bold">Inserta codigo de barra</InputLabel>
-                    <TextInput id="filterBarCode" value={barCode} onChange={handleInputChange} className="w-full max-w-lg" />
+                    <TextInput id="filterBarCode" autoComplete='off' value={barCode} onChange={handleInputChange} className="w-full max-w-lg" />
                     <InputError message={error} className='mt-2 font-bold' />
                     <div className="mt-4 flex gap-x-6">
                         <PrimaryButton className="font-bold" type="submit">Filtrar</PrimaryButton>

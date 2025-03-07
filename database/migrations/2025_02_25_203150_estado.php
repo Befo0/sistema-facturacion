@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('Estado')->insert([
+        DB::table('estado')->insert([
             ['nombreEstado' => 'Inactivo'],
             ['nombreEstado' => 'Activo'],
             ['nombreEstado' => 'Usado'],
