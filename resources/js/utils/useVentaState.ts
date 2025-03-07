@@ -13,7 +13,7 @@ export const useVentaState = (estadoInicial: DatosProductos[] = []) => {
             if (productoExistente) {
                 return estadoActual.map((item) =>
                     item.id === nuevoProducto.id
-                        ? { ...item, cantidadCompra: (item.cantidadCompra ?? 0) + 1 }
+                        ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) + 1 }
                         : item
                 )
             }
