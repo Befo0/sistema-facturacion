@@ -6,29 +6,40 @@ export const useVentaState = (estadoInicial: DatosProductos[] = []) => {
 
     const [venta, setVenta] = useState(estadoInicial)
 
-    const add = (nuevoProducto: DatosProductos) => {
+    const add = (nuevoProducto: DatosProductos, cantidad: number) => {
         setVenta((estadoActual) => {
             const productoExistente = estadoActual.find((item) => item.id === nuevoProducto.id)
 
             if (productoExistente) {
                 return estadoActual.map((item) =>
                     item.id === nuevoProducto.id
-                        ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) + 1 }
+                        ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) + cantidad }
                         : item
                 )
             }
 
-            return [...estadoActual, { ...nuevoProducto, cantidadCompra: 1 }]
+            return [...estadoActual, { ...nuevoProducto, cantidadCompra: cantidad }]
         })
     }
 
-    const remove = (index: number) => {
+    const remove = (idProducto: number) => {
         setVenta((estadoActual) => {
-            const nuevoEstado = [...estadoActual]
-            nuevoEstado.splice(index, 1)
+            const estado = [...estadoActual]
+            const nuevoEstado = estado.filter((producto) => producto.id !== idProducto)
             return nuevoEstado
         })
     }
 
-    return { venta, add, remove }
+    const removeOne = (idProducto: number) => {
+        setVenta((estadoActual) => {
+            const updated = estadoActual.map((item) =>
+                item.id === idProducto ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) - 1 }
+                    : item
+            )
+
+            return updated.filter(producto => (producto.cantidadCompra ?? 0) > 0)
+        })
+    }
+
+    return { venta, add, remove, removeOne }
 }

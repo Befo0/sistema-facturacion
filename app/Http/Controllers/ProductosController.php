@@ -118,6 +118,7 @@ class ProductosController extends Controller
         $producto->cantidadProductos = (int)$producto->cantidadProductos + (int)$validated['quantity'];
         $producto->idTipo = $producto->idTipo;
 
+        $producto->save();
 
         return Redirect::to(route('registro.productos'));
     }
