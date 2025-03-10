@@ -9,7 +9,7 @@ import { useState } from "react";
 
 export default function Caja() {
 
-    const { venta, add, remove, removeOne } = useVentaState([])
+    const { venta, add, remove, removeOne } = useVentaState()
     const [iniciarVenta, setIniciarVenta] = useState(false)
 
     return (

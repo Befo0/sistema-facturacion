@@ -1,8 +1,8 @@
-import { DatosProductos } from "@/types/ProductosPagination";
+import { DatosProductos, Venta } from "@/types/ProductosPagination";
 import { createContext } from "react";
 
 interface contextTypes {
-    venta: DatosProductos[];
+    venta: Venta;
     add: (nuevoProducto: DatosProductos, cantidad: number) => void;
     remove: (idProducto: number) => void;
     removeOne: (idProducto: number) => void;

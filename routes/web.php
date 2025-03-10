@@ -28,14 +28,18 @@ Route::get('/dashboard', function (Request $request) {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    //Productos
     Route::get('/productos', [ProductosController::class, 'create'])->name('registro.productos');
     Route::post('/guardar-productos', [ProductosController::class, 'store'])->name('productos.guardar');
     Route::patch('/editar-producto/{producto}', [ProductosController::class, 'update'])->name('productos.editar');
 
     //api
     Route::get('/api/productos/{codigoBarra}', [ProductosController::class, 'productoRegistrado'])->name('api.producto');
+    Route::get('/api/carrito/{codigoBarra}', [ProductosController::class, 'productoCarrito'])->name('api.carrito');
 
+    //Ventas
     Route::get('/caja', [VentasController::class, 'create'])->name('caja');
+    Route::post('/crear-venta', [VentasController::class, 'store'])->name('venta.crear');
 });
 
 Route::middleware('auth')->group(function () {

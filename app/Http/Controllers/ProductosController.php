@@ -22,7 +22,39 @@ class ProductosController extends Controller
     }
 
     /**
-     * Api for getting the products
+     * Api for getting the details of the productos in the cart
+     */
+    public function productoCarrito(string $codigoBarra)
+    {
+        $validator = Validator::make(['codigoBarra' => $codigoBarra], [
+            'codigoBarra' => 'required|string|min:20|max:20'
+        ], $messages = [
+            'required' => 'El codigo de barras es requerido',
+            'min' => 'El codigo de barras debe de ser de :min caracteres',
+            'max' => 'El codigo de barras debe de ser de :max caracteres',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $codigoBarra = $validator->validate()['codigoBarra'];
+
+        Gate::authorize('viewAny', Productos::class);
+
+        $producto = [];
+
+        if (strlen($codigoBarra) > 0) {
+            $producto = Productos::select('id', 'nombreProducto', 'precioProducto')->where('codigoBarra', '=', $codigoBarra)->get();
+        }
+
+        return $producto;
+    }
+
+    /**
+     * Api for getting the products for register and edit
      */
     public function productoRegistrado(string $codigoBarra)
     {

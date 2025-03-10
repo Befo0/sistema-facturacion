@@ -7,7 +7,12 @@ import { toast } from 'sonner';
 import { PageProps } from '@/types';
 import { DatosProductos } from '@/types/ProductosPagination';
 
-export default function EditarProductos({ producto }: { producto: DatosProductos[] }) {
+interface Props {
+    producto: DatosProductos[]
+    onToast: (message: string, type: 'success' | 'error' | 'info') => void
+}
+
+export default function EditarProductos({ producto, onToast }: Props) {
 
     const tipos = usePage<PageProps>().props.categories || []
     const objetoProducto = producto[0]
@@ -27,10 +32,14 @@ export default function EditarProductos({ producto }: { producto: DatosProductos
         patch(route('productos.editar', objetoProducto.id), {
             onSuccess: () => {
                 reset()
-                toast.success('El producto se ha editado correctamente')
+                onToast('El producto se ha editado correctamente', 'success')
             },
             onError: () => {
-                toast.error('Ha ocurrido un error al editar el producto')
+                if (errors) {
+                    onToast('Tus datos no cumplen con los requerimientos', 'info')
+                    return
+                }
+                onToast('Ha ocurrido un error al editar el producto', 'error')
             },
         })
 

@@ -10,7 +10,7 @@ import { DatosProductos } from '@/types/ProductosPagination';
 import { fetchProducts } from '@/utils/fetchProducts';
 import { Head } from '@inertiajs/react';
 import { useCallback, useState } from 'react';
-import { Toaster } from 'sonner';
+import { toast, Toaster } from 'sonner';
 
 export default function RegistroProductos() {
 
@@ -54,6 +54,23 @@ export default function RegistroProductos() {
         setBarcode('')
     }
 
+    const handleToastAction = (message: string, type: 'success' | 'error' | 'info') => {
+        switch (type) {
+            case 'success':
+                toast.success(message)
+                reset()
+                break
+            case 'error':
+                toast.error(message)
+                break
+            case 'info':
+                toast.info(message)
+                break
+            default:
+                toast(message)
+        }
+    }
+
     return (
         <NewLayout>
             <Head title='Registro de productos' />
@@ -73,12 +90,12 @@ export default function RegistroProductos() {
             {
                 showForm && producto.length === 0
                 &&
-                <ProductosForm barCode={barCode} />
+                <ProductosForm barCode={barCode} onToast={(message, type) => handleToastAction(message, type)} />
             }
             {
                 showForm && producto.length !== 0
                 &&
-                <EditarProductos producto={producto} />
+                <EditarProductos producto={producto} onToast={(message, type) => handleToastAction(message, type)} />
             }
         </NewLayout>
     )

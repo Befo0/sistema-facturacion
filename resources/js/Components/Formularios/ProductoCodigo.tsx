@@ -18,7 +18,7 @@ export default function ProductoCodigo() {
 
     const updateCart = useCallback(() => {
         setProcessing(true)
-        fetchProducts('api.producto', barCode)
+        fetchProducts('api.carrito', barCode)
             .then((response) => {
                 const [error, productoError, producto] = response
 
@@ -55,10 +55,10 @@ export default function ProductoCodigo() {
         <div className="mb-0 text-center w-full flex flex-col items-center">
             <div>
                 <InputLabel htmlFor="filterBarCode" className={`text-xl font-bold ${!iniciarVenta && "opacity-25"}`}>Cantidad de producto</InputLabel>
-                <TextInput id="filterBarCode" value={cantidad === 1 ? '' : cantidad} disabled={!iniciarVenta} onChange={(e) => setCantidad(Number(e.target.value))} className="w-full max-w-lg text-center" />
+                <TextInput id="filterBarCode" value={cantidad === 1 ? '' : cantidad} autoComplete="off" disabled={!iniciarVenta} onChange={(e) => setCantidad(Number(e.target.value))} className="w-full max-w-lg text-center" />
             </div>
             <InputLabel htmlFor="filterBarCode" className={`text-xl font-bold ${!iniciarVenta && "opacity-25"}`}>Codigo de barra</InputLabel>
-            <TextInput id="filterBarCode" disabled={!iniciarVenta} value={barCode} onChange={(e) => setBarCode(e.target.value)} className="w-full max-w-lg" />
+            <TextInput id="filterBarCode" autoComplete="on" disabled={!iniciarVenta} value={barCode} onChange={(e) => setBarCode(e.target.value)} className="w-full max-w-lg" />
             <InputError message={error} className='mt-2 font-bold' />
             <div className="mt-4 flex gap-x-6">
                 <PrimaryButton onClick={updateCart} disabled={processing || !iniciarVenta} className="font-bold" >Insertar</PrimaryButton>

@@ -6,7 +6,12 @@ import InputError from '../InputError';
 import { toast } from 'sonner';
 import { PageProps } from '@/types';
 
-export default function ProductosForm({ barCode }: { barCode: string }) {
+interface Props {
+    barCode: string,
+    onToast: (message: string, type: 'success' | 'error' | 'info') => void
+}
+
+export default function ProductosForm({ barCode, onToast }: Props) {
 
     const tipos = usePage<PageProps>().props.categories || []
 
@@ -25,10 +30,14 @@ export default function ProductosForm({ barCode }: { barCode: string }) {
         post(route('productos.guardar'), {
             onSuccess: () => {
                 reset()
-                toast.success('El producto se ha registrado correctamente')
+                onToast('El producto se ha registrado correctamente', 'success')
             },
             onError: () => {
-                toast.error('Ha ocurrido un error al registrar el producto')
+                if (errors) {
+                    onToast('Tus datos no cumplen con los requerimientos', 'info')
+                    return
+                }
+                onToast('Ha ocurrido un error al registrar el producto', 'error')
             },
         })
 

@@ -1,45 +1,55 @@
-import { DatosProductos } from "@/types/ProductosPagination";
-import { useState } from "react";
+import { DatosProductos, Venta } from "@/types/ProductosPagination";
+import { useCallback, useState } from "react";
 
+export const useVentaState = (estadoInicial: Venta | undefined = { productos: [], total: 0 }) => {
 
-export const useVentaState = (estadoInicial: DatosProductos[] = []) => {
+    const [venta, setVenta] = useState<Venta>(estadoInicial)
 
-    const [venta, setVenta] = useState(estadoInicial)
-
-    const add = (nuevoProducto: DatosProductos, cantidad: number) => {
-        setVenta((estadoActual) => {
-            const productoExistente = estadoActual.find((item) => item.id === nuevoProducto.id)
-
-            if (productoExistente) {
-                return estadoActual.map((item) =>
-                    item.id === nuevoProducto.id
-                        ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) + cantidad }
-                        : item
-                )
-            }
-
-            return [...estadoActual, { ...nuevoProducto, cantidadCompra: cantidad }]
-        })
+    const calcularSubTotal = (producto: DatosProductos) => {
+        return producto.precioProducto * (producto.cantidadCompra ?? 1)
     }
 
-    const remove = (idProducto: number) => {
-        setVenta((estadoActual) => {
-            const estado = [...estadoActual]
-            const nuevoEstado = estado.filter((producto) => producto.id !== idProducto)
-            return nuevoEstado
-        })
+    const calcularTotal = (productos: DatosProductos[]) => {
+        return productos.reduce((acc, producto) => acc + calcularSubTotal(producto), 0)
     }
 
-    const removeOne = (idProducto: number) => {
+    const add = useCallback((nuevoProducto: DatosProductos, cantidad: number) => {
         setVenta((estadoActual) => {
-            const updated = estadoActual.map((item) =>
-                item.id === idProducto ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) - 1 }
+            const productosActualizados = estadoActual.productos.map(item =>
+                item.id === nuevoProducto.id
+                    ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) + cantidad }
                     : item
             )
 
-            return updated.filter(producto => (producto.cantidadCompra ?? 0) > 0)
+            if (!productosActualizados.some((item) => item.id === nuevoProducto.id)) {
+                productosActualizados.push({ ...nuevoProducto, cantidadCompra: cantidad })
+            }
+
+            return { productos: productosActualizados, total: calcularTotal(productosActualizados) }
         })
-    }
+    }, [])
+
+    const remove = useCallback((idProducto: number) => {
+        setVenta((estadoActual) => {
+            const productosFiltrados = estadoActual.productos.filter(item => item.id !== idProducto)
+
+            return { productos: productosFiltrados, total: calcularTotal(productosFiltrados) }
+        })
+    }, [])
+
+    const removeOne = useCallback((idProducto: number) => {
+        setVenta((estadoActual) => {
+            const updated = estadoActual.productos.map((item) =>
+                item.id === idProducto ? { ...item, cantidadCompra: (item.cantidadCompra ?? 1) - 1 }
+                    : item
+            ).filter(producto => (producto.cantidadCompra ?? 0) > 0)
+
+            return {
+                productos: updated, total: calcularTotal(updated)
+            }
+
+        })
+    }, [])
 
     return { venta, add, remove, removeOne }
 }

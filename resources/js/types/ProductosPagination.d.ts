@@ -2,9 +2,9 @@ export interface DatosProductos {
     id: number;
     nombreProducto: string;
     codigoBarra?: string;
-    distribuidor: string;
-    precioProducto: string;
-    cantidadProductos: number;
+    distribuidor?: string;
+    precioProducto: number;
+    cantidadProductos?: number;
     cantidadCompra?: number;
     idTipo?: number;
 }
@@ -15,4 +15,9 @@ export interface ErrorProducto {
 
 export interface Errors {
     codigoBarra: string[];
+}
+
+export interface Venta {
+    productos: DatosProductos[];
+    total: number;
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detalles;
 use App\Models\Ventas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class VentasController extends Controller
@@ -29,7 +31,26 @@ class VentasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = $request->user();
+        $data = $request->json()->all();
+
+        $productos = $data['productos'];
+
+        $venta = Ventas::create([
+            'idSucursal' => $user->idSucursal,
+            'idCajero' => $user->id,
+            'fechaVenta' => now()->toDateTimeString(),
+            'totalVenta' => $data['total'],
+
+        ]);
+
+        foreach ($productos as $producto) {
+            Detalles::create([
+                'idVenta' => $venta->id,
+                'idProducto' => $producto['id'],
+                'cantidad' => $producto['cantidadProductos']
+            ]);
+        };
     }
 
     /**
