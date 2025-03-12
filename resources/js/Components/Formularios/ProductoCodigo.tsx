@@ -13,7 +13,6 @@ export default function ProductoCodigo() {
     const [processing, setProcessing] = useState(false)
     const [cantidad, setCantidad] = useState(1)
     const contextoVenta = useVentaContext()
-
     const { add, iniciarVenta } = contextoVenta
 
     const updateCart = useCallback(() => {
@@ -49,13 +48,13 @@ export default function ProductoCodigo() {
             }).finally(() => {
                 setProcessing(false)
             })
-    }, [barCode])
+    }, [barCode, cantidad])
 
     return (
         <div className="mb-0 text-center w-full flex flex-col items-center">
             <div>
                 <InputLabel htmlFor="filterBarCode" className={`text-xl font-bold ${!iniciarVenta && "opacity-25"}`}>Cantidad de producto</InputLabel>
-                <TextInput id="filterBarCode" value={cantidad === 1 ? '' : cantidad} autoComplete="off" disabled={!iniciarVenta} onChange={(e) => setCantidad(Number(e.target.value))} className="w-full max-w-lg text-center" />
+                <TextInput id="filterBarCode" type="number" value={cantidad === 1 ? '' : cantidad} autoComplete="off" disabled={!iniciarVenta} onChange={(e) => setCantidad(Number(e.target.value))} className="w-full max-w-lg text-center" />
             </div>
             <InputLabel htmlFor="filterBarCode" className={`text-xl font-bold ${!iniciarVenta && "opacity-25"}`}>Codigo de barra</InputLabel>
             <TextInput id="filterBarCode" autoComplete="on" disabled={!iniciarVenta} value={barCode} onChange={(e) => setBarCode(e.target.value)} className="w-full max-w-lg" />

@@ -1,30 +1,50 @@
 import { useVentaContext } from "@/utils/useVentaContext"
 import PrimaryButton from "../PrimaryButton"
 import SecondaryButton from "../SecondaryButton"
-import { useCallback, useState } from "react"
+import { useForm } from "@inertiajs/react"
+import { DatosProductos } from "@/types/ProductosPagination"
+import { toast } from "sonner"
+import { Toaster } from "sonner"
+import { useCallback, useEffect } from "react"
+
+interface FormData {
+    producto: DatosProductos[]
+    total: number
+    [key: string]: any
+}
 
 export default function MetodoPago() {
 
     const contextoVenta = useVentaContext()
-    const { venta, iniciarVenta, setIniciarVenta } = contextoVenta
-    const [processing, setProcessing] = useState(false)
+    const { venta, iniciarVenta, setIniciarVenta, clearVenta } = contextoVenta
+    const { setData, post, processing } = useForm<FormData>({
+        producto: venta.productos,
+        total: venta.total
+    })
 
-    const handleSubmit = useCallback(async () => {
-        const response = await fetch(route('venta.crear'), {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+    useEffect(() => {
+        setData('producto', venta.productos)
+        setData('total', venta.total)
+    }, [venta])
+
+    const handleSubmit = useCallback((e: React.FormEvent) => {
+        e.preventDefault()
+        post(route('venta.crear'), {
+            onSuccess: () => {
+                setIniciarVenta(false)
+                clearVenta()
+                toast.success('La venta se ha registrado correctamente')
             },
-            body: JSON.stringify(venta)
+            onError: (e) => {
+                toast.error('Ocurrio un error al registrar la venta')
+                console.log('Error: ', e)
+            }
         })
-
-        console.log(response)
-    }, [processing])
+    }, [setData, post, processing, venta.productos, venta.total, setIniciarVenta, clearVenta])
 
     return (
         <div>
+            <Toaster richColors position="top-right" />
             {
                 !iniciarVenta
                     ?
@@ -37,11 +57,13 @@ export default function MetodoPago() {
                         </PrimaryButton>
                     </div>
                     :
-                    <form onSubmit={handleSubmit} className="w-full h-full flex items-center justify-center">
-                        <SecondaryButton type="submit" onClick={() => setProcessing(true)} disabled={processing}>
-                            Terminar Venta
-                        </SecondaryButton>
-                    </form>
+                    <div>
+                        <form onSubmit={handleSubmit} className="w-full h-full flex items-center justify-center mb-0">
+                            <SecondaryButton type="submit" disabled={processing}>
+                                Terminar Venta
+                            </SecondaryButton>
+                        </form>
+                    </div>
             }
         </div>
     )

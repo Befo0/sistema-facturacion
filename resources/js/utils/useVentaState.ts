@@ -51,5 +51,9 @@ export const useVentaState = (estadoInicial: Venta | undefined = { productos: []
         })
     }, [])
 
-    return { venta, add, remove, removeOne }
+    const clearVenta = useCallback(() => {
+        setVenta({ productos: [], total: 0 })
+    }, [])
+
+    return { venta, add, remove, removeOne, clearVenta }
 }

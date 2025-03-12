@@ -6,6 +6,7 @@ interface contextTypes {
     add: (nuevoProducto: DatosProductos, cantidad: number) => void;
     remove: (idProducto: number) => void;
     removeOne: (idProducto: number) => void;
+    clearVenta: () => void
     iniciarVenta: boolean;
     setIniciarVenta: React.Dispatch<React.SetStateAction<boolean>>;
 }
