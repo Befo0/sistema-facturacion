@@ -3,7 +3,6 @@ import TextInput from '@/Components/TextInput';
 import PrimaryButton from '../PrimaryButton';
 import { useForm, usePage } from '@inertiajs/react';
 import InputError from '../InputError';
-import { toast } from 'sonner';
 import { PageProps } from '@/types';
 
 interface Props {

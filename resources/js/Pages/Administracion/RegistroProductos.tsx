@@ -21,6 +21,7 @@ export default function RegistroProductos() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+        setError('')
         searchProducto()
     }
 

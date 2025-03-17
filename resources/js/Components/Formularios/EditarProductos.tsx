@@ -3,7 +3,6 @@ import TextInput from '@/Components/TextInput';
 import PrimaryButton from '../PrimaryButton';
 import { useForm, usePage } from '@inertiajs/react';
 import InputError from '../InputError';
-import { toast } from 'sonner';
 import { PageProps } from '@/types';
 import { DatosProductos } from '@/types/ProductosPagination';
 
@@ -102,7 +101,7 @@ export default function EditarProductos({ producto, onToast }: Props) {
                         id="price"
                         type="number"
                         value={data.price}
-                        onChange={(e) => setData('price', e.target.value)}
+                        onChange={(e) => setData('price', Number(e.target.value))}
                         className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                     />
                     <InputError message={errors.quantity} />
